@@ -1,0 +1,97 @@
+@extends('layoutAdmin.master')
+@section('content')
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h3 class="mt-4">Konten Travel Reguler</h3>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Data</li>
+            </ol>
+            @if (session('status'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('status') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                
+            </div>
+            @endif
+            <div class="card mb-4">
+                <div class="card-header">
+                    <a href="{{ url('/reguler/data/create') }}" class="btn btn-primary">Tambah Data Baru</a>
+                </div>
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Konten Travel Reguler
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama</th>
+                                <th>Foto</th>
+                                <th>Deskripsi</th>
+                                <th>Kisaran Harga</th>
+                                <th colspan="2">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama</th>
+                                <th>Foto</th>
+                                <th>Deskripsi</th>
+                                <th>Kisaran Harga</th>
+                                <th colspan="2">Aksi</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <tr>
+                                @foreach ($reguler as $item)
+                                
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>
+                                    <img src=" {{ asset('storage/' . $item->foto) }} " alt="Foto Lokasi" style="width: 50px;;">
+                                </td>
+                                <td>
+                                    <div style="max-width:100px" class="text-truncate">
+                                        {{ $item->deskripsi }}
+                                    </div>
+                                </td>
+                                <td>{{ $item->harga }}</td>
+                                <td>
+                                    <a href="{{ url('/reguler/data' . '/' . $item->id . '/edit') }}"
+                                        class="btn btn-warning">Edit</a>
+                                        <form action="{{ url('/reguler/data' . '/' . $item->id) }}" method="POST">
+                                            @csrf
+                                            
+                                            @method("DELETE")
+                                            <button class="btn btn-danger" type="submit">Hapus</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Bolinggo Tour & Travel, 2022</div>
+                    <div>
+                        <a href="#">Privacy Policy</a>
+                        &middot;
+                        <a href="#">Terms &amp; Conditions</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+@endsection

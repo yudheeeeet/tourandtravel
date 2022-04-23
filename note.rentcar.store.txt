@@ -1,0 +1,22 @@
+        $this->validate($request, [
+            'foto' => 'required|mimes:jpg,jpeg,png',
+        ]);
+
+        $file = $request->foto->getClientOriginalName();
+        $foto = $request->foto->storeAs('rentcar', $file);
+        // dd('success');
+
+        Rentcar::create([
+            'name' => $request->name,
+            'foto' => $foto,
+            'plat' => $request->plat,
+            'warna' => $request->warna,
+            'stnk' => $request->stnk,
+            'bpkb' => $request->bpkb,
+            'harga' => $request->harga,
+            'status' => $request->status,
+        ]);
+
+        // dd($request);
+
+        return redirect('/rentcar/data')->with('status', 'Berhasil menambahkan data');
